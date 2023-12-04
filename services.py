@@ -1,7 +1,7 @@
 import json
 import numpy as np
 import pandas as pd
-from gensim.models import Word2Vec
+from gensim.models import KeyedVectors
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 
@@ -43,5 +43,5 @@ def wordCount(data):
 
 def getWordEmbedding(embedding):
     #print(embedding)
-    model = Word2Vec.load(embedding)
+    model = KeyedVectors.load_word2vec_format(embedding, binary=True)
     return model

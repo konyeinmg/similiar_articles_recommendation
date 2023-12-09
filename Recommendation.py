@@ -1,6 +1,7 @@
 import numpy as np
 
 import services
+import Similarlity
 
 data = services.readData('data.json')
 services.logger('Data Read')
@@ -28,4 +29,14 @@ for i in range(len(train)):
     document_embeddings += [services.getDocumentEmbeddings(train[i], i, word_embeddings, tfidf_matrix, tfidf_vectorizer)]
 document_embeddings = np.array(document_embeddings)
 services.logger('Document Embeddings Calculated')
-print(document_embeddings.shape)
+
+candidate = test[10]
+services.logger(candidate)
+test_tfidf = tfidf_vectorizer.transform([candidate])
+test_document_embedding = services.getDocumentEmbeddings(candidate, 0, word_embeddings, test_tfidf, tfidf_vectorizer)
+
+services.logger('Similarity Scores Calculating....')
+services.logger('Similar Articles.........')
+similar_articles = Similarlity.getSimilarArticles(test_document_embedding, document_embeddings, train)
+for article in similar_articles:
+    services.logger(article)

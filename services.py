@@ -55,3 +55,20 @@ def train_test_split(data, train_percent):
     train_set = data[:train]
     test_set = data[train:]
     return train_set, test_set
+    
+
+def getDocumentEmbeddings(document, documentIndex,  word_embeddings, tfidf_matrix, tfidf_vectorizer):
+    feature_names = tfidf_vectorizer.get_feature_names_out()
+    
+    word_tfidf = tfidf_matrix[documentIndex].toarray().flatten()
+    words_in_doc = [feature_names[j] for j in np.where(word_tfidf > 0)[0]]  # Extracting words present in the document
+
+    word_vecs = [word_embeddings[word] for word in words_in_doc if word in word_embeddings]
+
+    if word_vecs:
+        doc_embedding = np.mean(word_vecs, axis=0)  # Mean of word embeddings
+    else:
+        # If no word embeddings found for words in document, use zeros
+        doc_embedding = np.zeros(word_embeddings_model.vector_size)
+    
+    return doc_embedding

@@ -1,3 +1,5 @@
+import numpy as np
+
 import services
 
 data = services.readData('data.json')
@@ -20,3 +22,10 @@ services.logger('Feature Extracted')
 word_embeddings = services.getWordEmbedding('GoogleNews-vectors-negative300.bin')
 services.logger('Word Embeddings Loaded')
 #print(word_embeddings['apple'])
+
+document_embeddings = []
+for i in range(len(train)):
+    document_embeddings += [services.getDocumentEmbeddings(train[i], i, word_embeddings, tfidf_matrix, tfidf_vectorizer)]
+document_embeddings = np.array(document_embeddings)
+services.logger('Document Embeddings Calculated')
+print(document_embeddings.shape)

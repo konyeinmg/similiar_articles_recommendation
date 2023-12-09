@@ -6,7 +6,6 @@ from gensim.models import KeyedVectors
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 def logger(log):
-    print('---------------------------------------------')
     print(log)
     print('---------------------------------------------')
 
@@ -50,3 +49,9 @@ def getWordEmbedding(embedding):
     #print(embedding)
     model = KeyedVectors.load_word2vec_format(embedding, binary=True)
     return model
+
+def train_test_split(data, train_percent):
+    train = int(len(data) * train_percent)
+    train_set = data[:train]
+    test_set = data[train:]
+    return train_set, test_set

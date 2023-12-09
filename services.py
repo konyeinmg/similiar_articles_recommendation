@@ -5,6 +5,11 @@ from gensim.models import KeyedVectors
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 
+def logger(log):
+    print('---------------------------------------------')
+    print(log)
+    print('---------------------------------------------')
+
 def readData(url):
     f = open(url)
     data = json.load(f)

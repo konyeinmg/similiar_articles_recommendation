@@ -13,7 +13,7 @@ services.logger('Train Test Split')
 
 num_features = 1024
 noise = 10
-tfidf_vectorizer, tfidf_matrix = services.getFeatures(data, num_features, noise)
+tfidf_vectorizer, tfidf_matrix = services.getFeatures(train, num_features, noise)
 services.logger('Feature Extracted')
 
 

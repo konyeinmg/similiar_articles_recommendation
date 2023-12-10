@@ -30,7 +30,7 @@ for i in range(len(train)):
 document_embeddings = np.array(document_embeddings)
 services.logger('Document Embeddings Calculated')
 
-candidate = test[10]
+candidate = test[100]
 services.logger(candidate)
 test_tfidf = tfidf_vectorizer.transform([candidate])
 test_document_embedding = services.getDocumentEmbeddings(candidate, 0, word_embeddings, test_tfidf, tfidf_vectorizer)

@@ -9,14 +9,17 @@ def getCosineSimilarity(candidate, reference):
     consine_similarity = dot_product / (magnitue_candidate * magnitue_reference)
     return consine_similarity
 
+def knn(candidate, reference):
+    return np.linalg.norm(candidate - reference)
+
 def getSimilarArticles(candidate, documents, corpus, num_similar_articles = 5):
     scores = []
     for docuemnt in documents:
-        score = getCosineSimilarity(candidate, docuemnt)   
+        score = knn(candidate, docuemnt)   
         scores += [score]
-    print(scores)
-    #sorted_indices = np.argsort(scores)
-    sorted_indices = sorted_indices[::-1] #reverse
+    #print(scores)
+    sorted_indices = np.argsort(scores)
+    #sorted_indices = sorted_indices[::-1] #reverse if use cosine
     #print(sorted_indices)
     similar_articles_indices = sorted_indices[:num_similar_articles]
     similar_articles = []

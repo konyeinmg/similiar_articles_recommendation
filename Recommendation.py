@@ -25,12 +25,19 @@ services.logger('Word Embeddings Loaded')
 #print(word_embeddings['apple'])
 
 document_embeddings = []
+ind2doc = {}
 for i in range(len(train)):
-    document_embeddings += [services.getDocumentEmbeddings(train[i], i, word_embeddings, tfidf_matrix, tfidf_vectorizer)]
-document_embeddings = np.array(document_embeddings)
+    document_embedding = services.getDocumentEmbeddings(train[i], i, word_embeddings, tfidf_matrix, tfidf_vectorizer)
+    ind2doc[i] = document_embedding
+    document_embeddings.append(document_embedding)
+
+document_embeddings = np.vstack(document_embeddings)
+#print('Document embeddings shape : ',document_embeddings.shape)
+#print('Document embeddings dict len : ',len(ind2doc))
 services.logger('Document Embeddings Calculated')
 
-candidate = test[100]
+
+candidate = test[200]
 services.logger(candidate)
 test_tfidf = tfidf_vectorizer.transform([candidate])
 test_document_embedding = services.getDocumentEmbeddings(candidate, 0, word_embeddings, test_tfidf, tfidf_vectorizer)

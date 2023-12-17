@@ -20,3 +20,17 @@ class LSH:
             hash_value += np.power(2,i) * h[i]
         hash_value = int(hash_value)
         return hash_value
+    
+    def make_hash_table(vecs):
+        num_buckets = 2 ** self.N_PLANES
+
+        hash_table = {i:[] for i in range(num_buckets)}
+        id_table = {i:[] for i in range(num_buckets)}
+
+        for i,v in enumerate(vecs):
+            h = hash_value_of_vector(v)
+            
+            hash_table[h].append(v)
+            id_table[h].append(i)
+        
+        return hash_table,id_table

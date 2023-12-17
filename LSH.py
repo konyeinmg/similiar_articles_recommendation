@@ -35,7 +35,7 @@ class LSH:
             self.hash_table[h].append(v)
             self.id_table[h].append(i)
         
-    def similar_articles(self,vec,corpus, num_of_articles = 5):
+    def similar_articles(self,vec,corpus, num_of_articles = 5, log = False):
         h = self.hash_value_of_vector(vec)
         documents_to_consider = self.hash_table[h]
         docuemnt_ids_to_consider = self.id_table[h]
@@ -48,7 +48,10 @@ class LSH:
         sorted_scores = {k: v for k, v in sorted(scores.items(), key=lambda item: item[1])}
         sorted_ids = list(sorted_scores.keys())
         sorted_ids = sorted_ids[-num_of_articles:]
-
+        if log:
+            print('Scores of a bucket : ', h)
+            for key,value in sorted_scores.items():
+                print(key,' : ', value)
         articles = []
         for doc_id in sorted_ids:
             articles.append(corpus[doc_id])

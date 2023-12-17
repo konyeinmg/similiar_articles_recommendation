@@ -25,5 +25,5 @@ def getSimilarArticles(candidate, documents, corpus, num_similar_articles = 5):
     similar_articles = []
     for index in similar_articles_indices:
         similar_articles += [corpus[index]]
-    return similar_articles
+    return similar_articles,similar_articles_indices
     

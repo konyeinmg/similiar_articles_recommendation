@@ -53,4 +53,4 @@ class LSH:
         for id in sorted_ids:
             articles.append(corpus[id])
         
-        return articles
+        return articles,sorted_ids

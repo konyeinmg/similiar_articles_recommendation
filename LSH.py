@@ -44,3 +44,13 @@ class LSH:
         for doc_id,document in zip(docuemnt_ids_to_consider, documents_to_consider):
             score = Similarlity.getCosineSimilarity(vec, document)
             scores[doc_id] = score
+
+        sorted_scores = {k: v for k, v in sorted(scores.items(), key=lambda item: item[1])}
+        sorted_ids = list(sorted_scores.keys())
+        sorted_ids = sorted_ids[-num_of_articles:]
+
+        articles = []
+        for id in sorted_ids:
+            articles.append(corpus[id])
+        
+        return articles

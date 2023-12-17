@@ -9,7 +9,7 @@ class LSH:
         self.N_DIMS = N_DIMS #word embedding dimension
         self.planes = np.random.normal(size = (self.N_DIMS, self.N_PLANES))
     
-    def hash_value_of_vector(v):
+    def hash_value_of_vector(self,v):
         dot_product = np.dot(v,self.planes)
 
         sign_of_dot_product = np.sign(dot_product)
@@ -23,20 +23,20 @@ class LSH:
         hash_value = int(hash_value)
         return hash_value
     
-    def make_hash_table(vecs):
+    def make_hash_table(self,vecs):
         num_buckets = 2 ** self.N_PLANES
 
         self.hash_table = {i:[] for i in range(num_buckets)}
         self.id_table = {i:[] for i in range(num_buckets)}
 
         for i,v in enumerate(vecs):
-            h = hash_value_of_vector(v)
+            h = self.hash_value_of_vector(v)
             
             self.hash_table[h].append(v)
             self.id_table[h].append(i)
         
-    def similar_articles(vec,corpus, num_of_articles = 5):
-        h = hash_value_of_vector(vec)
+    def similar_articles(self,vec,corpus, num_of_articles = 5):
+        h = self.hash_value_of_vector(vec)
         documents_to_consider = self.hash_table[h]
         docuemnt_ids_to_consider = self.id_table[h]
 
@@ -50,7 +50,7 @@ class LSH:
         sorted_ids = sorted_ids[-num_of_articles:]
 
         articles = []
-        for id in sorted_ids:
-            articles.append(corpus[id])
+        for doc_id in sorted_ids:
+            articles.append(corpus[doc_id])
         
         return articles,sorted_ids

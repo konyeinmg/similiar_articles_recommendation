@@ -2,6 +2,7 @@ import numpy as np
 
 import services
 import Similarlity
+from LSH import LSH
 
 data = services.readData('data.json')
 services.logger('Data Read')
@@ -44,6 +45,11 @@ test_document_embedding = services.getDocumentEmbeddings(candidate, 0, word_embe
 
 services.logger('Similarity Scores Calculating....')
 services.logger('Similar Articles.........')
-similar_articles = Similarlity.getSimilarArticles(test_document_embedding, document_embeddings, train)
-for article in similar_articles:
-    services.logger(article)
+similar_articles, indices = Similarlity.getSimilarArticles(test_document_embedding, document_embeddings, train)
+print('Similar articles indices by pure cosine similarity : ', indices)
+
+#LSH
+lsh = LSH()
+lsh.make_hash_table(document_embeddings)
+lsh_similar_articles, lsh_indices = lsh.similar_articles(test_document_embedding, train)
+print('Similar articles indices by lsh : ', lsh_indices)

@@ -1,5 +1,7 @@
 import numpy as np
 
+import Similarlity
+
 class LSH:
 
     def __init__(self, N_PLANES = 8, N_DIMS = 300):
@@ -24,13 +26,21 @@ class LSH:
     def make_hash_table(vecs):
         num_buckets = 2 ** self.N_PLANES
 
-        hash_table = {i:[] for i in range(num_buckets)}
-        id_table = {i:[] for i in range(num_buckets)}
+        self.hash_table = {i:[] for i in range(num_buckets)}
+        self.id_table = {i:[] for i in range(num_buckets)}
 
         for i,v in enumerate(vecs):
             h = hash_value_of_vector(v)
             
-            hash_table[h].append(v)
-            id_table[h].append(i)
+            self.hash_table[h].append(v)
+            self.id_table[h].append(i)
         
-        return hash_table,id_table
+    def similar_articles(vec,corpus, num_of_articles = 5):
+        h = hash_value_of_vector(vec)
+        documents_to_consider = self.hash_table[h]
+        docuemnt_ids_to_consider = self.id_table[h]
+
+        scores = {}
+        for doc_id,document in zip(docuemnt_ids_to_consider, documents_to_consider):
+            score = Similarlity.getCosineSimilarity(vec, document)
+            scores[doc_id] = score
